@@ -5,16 +5,16 @@ int main(void){
 
 	//ponteiros da estrutura banda de rock
 
-	BR *elm;//ponteiro do nÛ que ir· ser adicionado
+	BR *elm;//ponteiro do n√≥ que ir√° ser adicionado
     BR botaInt;
     BR *key;
     BR *key2;
     BR *show;
 
     //ponteiro para a lista
-    SLlist *lista = NULL;
+    DLlist *lista = NULL;
 
-    //vari·veis de busca
+    //vari√°veis de busca
     char buscarNomeDaBanda[50], buscarNomeVocal[50];
     char rnBanda[50] , rnVocal[50];
     int ano;
@@ -22,12 +22,13 @@ int main(void){
     float nota;
     float rNota;
 
-	//vari·veis auxiliares e do menu
+	//vari√°veis auxiliares e do menu
 	int i;
     void *data;
     int menu;
     int saida = 0;
 	int menuRet;
+	int menuInsere;
 
 	//menu
     while(saida == 0){
@@ -52,7 +53,7 @@ int main(void){
             		break;
 				}
 				else{
-					lista = sllCreate();
+					lista = dllCreate();
                 	if(lista != NULL){
                 	printf("LISTA CRIADA COM SUCESSO\n");
 					}
@@ -75,14 +76,27 @@ int main(void){
 					fflush(stdin);
 					printf("Ano de estreia:");
 					fflush(stdin);
-	                scanf("%d" ,&(elm->anoForm));//Salva o ano de formaÁ„o
+	                scanf("%d" ,&(elm->anoForm));//Salva o ano de forma√ß√£o
 	                fflush(stdin);
 					printf("Nota da Billboard:");
 	                fflush(stdin);
 	                scanf("%f" ,&(elm->notaBilb));//Salva a nota da Billboard
 					fflush(stdin);
-					sllInsere(lista,elm);//Insere na primeira posiÁ„o
-	                break;
+
+					dllInsereFirst(lista,elm);
+
+					//printf("Agora digite 1 para inserir no come√ßo ou 2 para inserir no final");
+					//scanf("%d" ,menuInsere);
+
+					//if(menuInsere == 1){
+                        //dllInsereFirst(lista,elm);//Insere na primeira posi√ß√£o
+                        //break;
+					//}
+					//else{
+                        //dllInsereLast(lista,elm);//Insere na ultima posi√ß√£o
+                        //break;
+                        //}
+	                //break;
             	}
             	else{
             		printf("A lista ainda n foi criada\n");
@@ -90,14 +104,14 @@ int main(void){
 				}
 			}
 
-			//Caso o uau·rio queira imprimir a lista
+			//Caso o uau√°rio queira imprimir a lista
 		    case (3):{
 		    	if(lista != NULL){
 	            	if(lista!=NULL){
-	                    show=(BR*)sllGetFirst(lista);//Pega o primeiro elemento da lista
+	                    show=(BR*)dllGetFirst(lista);//Pega o primeiro elemento da lista
 	                    while(show!=NULL){
 	                        listaTodos(show);
-	                        show=(BR*)sllGetNext(lista);
+	                        show=(BR*)dllGetNext(lista);
 	                    }
 	                }
 	                else{
@@ -111,14 +125,14 @@ int main(void){
 				}
 	        }
 
-        	//Caso o usu·rio queira pesquisar na lista a partir do nome da banda de rock
+        	//Caso o usu√°rio queira pesquisar na lista a partir do nome da banda de rock
             case (4):{
             	if(lista != NULL){
 	                if (lista != NULL){
 	                    printf("Informe nome da banda de rock a ser procurado:\n");
 	                    fflush(stdin);
 	                    scanf("%s", &buscarNomeDaBanda);
-	                    data=sllQuery(lista,(void*)&buscarNomeDaBanda,ComparaNome);
+	                    data=dllQuery(lista,(void*)&buscarNomeDaBanda,ComparaNome);
 	                    if(data != NULL){
 	                    	printf("O elemento procurado esta na lista\n");
 	                    }
@@ -132,19 +146,19 @@ int main(void){
 	                break;
             	}
             	else{
-            		printf("A lita ainda n„o foi criada\n");
+            		printf("A lita ainda n√£o foi criada\n");
             		break;
 				}
         	}
 
-			//Caso o usu·rio queira pesquisar na lista a partir do nome do vocalista da banda
+			//Caso o usu√°rio queira pesquisar na lista a partir do nome do vocalista da banda
             case (5):{
             	if(lista != NULL){
 	                if (lista!=NULL){
 	                    printf("Informe nome do vocalista da banda de rock a ser procurado:\n");
 	                    fflush(stdin);
 	                    scanf("%s", &buscarNomeVocal);
-	                    data=sllQuery(lista,(void*)&buscarNomeVocal,ComparaNomeVocal);
+	                    data=dllQuery(lista,(void*)&buscarNomeVocal,ComparaNomeVocal);
 
 	                    if(data != NULL){
 	                    	printf("O elemento procurado esta na lista\n");
@@ -163,14 +177,14 @@ int main(void){
             	break;
 			}
 		}
-            //Caso o usu·rio queira pesquisar na lista a partir do ano de formaÁ„o da banda
+            //Caso o usu√°rio queira pesquisar na lista a partir do ano de forma√ß√£o da banda
             case(6):{
             	if(lista != NULL){
 	                if (lista != NULL){
 	                    printf("Informe o ano de formacao da banda de rock a ser procurado:\n");
 	                    fflush(stdin);
 	                    scanf("%d", &ano);
-	                    data=sllQuery(lista,(void*)&ano,ComparaAnoForm );
+	                    data=dllQuery(lista,(void*)&ano,ComparaAnoForm );
 	                    if(data != NULL){
 	                    	printf("O elemento procurado esta na lista\n");
 	                    }
@@ -189,7 +203,7 @@ int main(void){
 				}
             }
 
-            //Caso o usu·rio queira pesquisar na lista a partir da nota da banda
+            //Caso o usu√°rio queira pesquisar na lista a partir da nota da banda
             case(7):{
             	if (lista != NULL){
 
@@ -197,7 +211,7 @@ int main(void){
 	                    printf("Informe a nota da Billboard da banda de rock a ser procurado:\n");
 	                    fflush(stdin);
 	                    scanf("%f", &nota);
-	                    data=sllQuery(lista,(void*)&nota,ComparaNotaBilb);
+	                    data=dllQuery(lista,(void*)&nota,ComparaNotaBilb);
 	                    if(data != NULL){
 	                    	printf("O elemento procurado esta na lista\n");
 	                    }
@@ -216,11 +230,11 @@ int main(void){
 				}
 			}
 
-			//Remove um elemento especÌfico da lista
+			//Remove um elemento espec√≠fico da lista
 			case(8):{
 				if(lista != NULL){
 
-					//Informa de qual campo o usu·rio quer procurar na lista para remover uma Banda de Rock
+					//Informa de qual campo o usu√°rio quer procurar na lista para remover uma Banda de Rock
 					printf("Informe para qual campo vc quer procurar um elemento para remover:\n");
 					printf("1: Nome:\n");
 					printf("2: Vocalista:\n");
@@ -234,7 +248,7 @@ int main(void){
 							fflush(stdin);
 							scanf("%c" ,&rnBanda[50]);
 							fflush(stdin);
-							data=sllRemoveSpec(lista,(void*)&rnBanda,ComparaNome);
+							data=dllRemoveSpec(lista,(void*)&rnBanda,ComparaNome);
 
 							if (data != NULL){//testa se o elemento foi realmente removido
 								printf("Removido com sucesso\n");
@@ -246,19 +260,19 @@ int main(void){
 							fflush(stdin);
 							scanf("%c" ,&rnVocal[50]);
 							fflush(stdin);
-							data=sllRemoveSpec(lista,(void*)&rnVocal,ComparaNomeVocal);
+							data=dllRemoveSpec(lista,(void*)&rnVocal,ComparaNomeVocal);
 
 							if (data != NULL){//testa se o elemento foi realmente removido
 								printf("Removido com sucesso\n");
 							}
 							break;
 						}
-						case(3):{//Remove a partir do ano de fomaÁ„o
+						case(3):{//Remove a partir do ano de foma√ß√£o
 							printf("Informe o ano de formacao da banda que vc quer retirar\n");
 							fflush(stdin);
 							scanf("%d" ,&rAno);
 							fflush(stdin);
-							data=sllRemoveSpec(lista,(void*)&rAno,ComparaAnoForm);
+							data=dllRemoveSpec(lista,(void*)&rAno,ComparaAnoForm);
 
 							if (data != NULL){//testa se o elemento foi realmente removido
 								printf("Removido com sucesso\n");
@@ -270,7 +284,7 @@ int main(void){
 							fflush(stdin);
 							scanf("%f" ,&rNota);
 							fflush(stdin);
-							data=sllRemoveSpec(lista,(void*)&rNota,ComparaAnoForm);
+							data=dllRemoveSpec(lista,(void*)&rNota,ComparaAnoForm);
 
 							if (data != NULL){//testa se o elemento foi realmente removido
 								printf("Removido com sucesso\n");
@@ -289,7 +303,7 @@ int main(void){
 			//Destroi a lista
 			case(9):{
 				if (lista != NULL){
-					sllDestroy(lista);
+					dllDestroy(lista);
 					break;
 				}
 				else{
@@ -300,7 +314,7 @@ int main(void){
 				break;
 			}
 
-			//SaÌda
+			//Sa√≠da
 			case(0):{
 				saida = 1;
 				break;
@@ -308,7 +322,7 @@ int main(void){
         }
     }
     if(lista != NULL){
-    	sllDestroy(lista);
+    	dllDestroy(lista);
 	}
 }
 
